@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" lang="zh_CN">
+		<title></title>
+	</head>
+	<style>
+		span{
+			border: solid 1px red;
+			margin:10px 10px;
+			padding: 10px 10px;
+		}
+	</style>
+	<body>
+		<div id='app'>
+			{{ message }}
+			
+			<hr/>
+			<span v-bind:title="title">悬停此处查看信息</span>
+			
+			<hr/>
+			<p v-if="seen">现在你看到我了</p>
+			
+			<hr/>
+			<ol>
+				<li v-bind:key="index" v-for="(todo,index) in todos">
+					{{ todo.text }}
+				</li>
+			</ol>
+			
+			<hr />
+			<span>{{buttonMessage}}</span>
+			<button v-on:click="reverseMessage">逆转消息</button>
+			
+			<hr/>
+			<p>{{modelMessage}}</p>
+			<input v-model="modelMessage" />
+			
+			<hr />
+			<ol>
+				<todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key='item.id'></todo-item>
+			</ol>
+		</div>
+	</body>
+	
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		Vue.component("todo-item",{
+			template:'<li>{{todo.text}}</li>',
+			props:['todo']
+		})
+		var app=new Vue({
+			el:"#app",
+			data:function (){
+				return {
+					message:'你好',
+					title:'页面加载于'+new Date().toLocaleString(),
+					seen:true,
+					todos:[
+						{text:'学习 vue'},
+						{text:'学习 element ui'},
+						{text:'学习 vant'},
+					],
+					buttonMessage:'Hello vue.js!!!',
+					modelMessage:'Hello vue',
+					groceryList:[
+						{id:0,text:'蔬菜'},
+						{id:1,text:'水果'},
+						{id:2,text:'鸡鸭鱼肉'},
+						{id:3,text:'五谷杂粮'},
+						
+					],
+				}
+			},
+			methods:{
+				// 翻转信息
+				reverseMessage: function(){
+					this.buttonMessage=this.buttonMessage.split('').reverse().join('')
+				}
+			}
+		})
+		
+	</script>
+</html>
