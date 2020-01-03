@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style>
+		.red{
+			color: red;
+		}
+		.blue{
+			color: blue;
+		}
+		.green{
+			color: green;
+		}
+	</style>
+	<body>
+		<div id='app'>
+			
+			<h4>v-once指令：对该标记标签内部数据绑定一次性插值，当数据改变时，插值处内容不会改变</h4>
+			<span>未被v-once标记：{{onceMessage}}</span>|  <span v-once>被v-once标记:{{onceMessage}}</span>
+			<br />
+			<h4>v-html:用来解析HTML字符串</h4>
+			<p>使用双大括号: {{ rawHtml }}</p>
+			<p>使用 v-html 指令: <span v-html="rawHtml"></span></p>
+			
+			<h4> v-bind指令：绑定属性  语法  v-bind:属性=""</h4>
+			<span v-bind:class="bindClass" style="font-size: 40px;">text...</span>
+			<button v-on:click="modifyBindClass">改变颜色</button>
+			
+			<!-- 学习到指令  To Be Continue -->
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		var vm=new Vue({
+			el:"#app",
+			data:{
+				onceMessage:1,
+				rawHtml:'<span style="color: red">This should be red.</span>',
+				bindClass:'',
+				bindClasses:['red','blue','green']
+			},
+			methods:{
+				modifyBindClass:function(){
+					var temp=this.randomBindClass();
+					while(temp==this.bindClass){
+						temp=this.randomBindClass();
+					}
+					this.bindClass=temp;
+				},
+				randomBindClass:function(){
+					return this.bindClasses[Math.round(Math.random()*(this.bindClasses.length-1))];
+				}
+			}
+		})
+	</script>
+</html>
