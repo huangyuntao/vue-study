@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue实例</title>
+	</head>
+	<body>
+		<div id="app">
+			<span>体重：{{wight}}</span>
+			<ul>
+				<li v-for="(log,index) in logs" v-bind:key="index">
+					{{log.oldValue}} ====> {{log.newValue}}
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		
+		var vm=new Vue({
+			data:{
+				wight:"95kg",
+				logs:[]
+			},
+			mounted:function(){
+				console.log("挂载dom")
+			}
+		}).$mount("#app")
+		/* $watch 用来监控data某数据的变化 */
+		vm.$watch('wight',function(newValue,oldValue){
+			this.logs.push({"oldValue":oldValue,"newValue":newValue});
+		})
+		vm.$data.wight="75kg";
+	</script>
+</html>
