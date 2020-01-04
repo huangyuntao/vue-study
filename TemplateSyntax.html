@@ -29,7 +29,10 @@
 			<span v-bind:class="bindClass" style="font-size: 40px;">text...</span>
 			<button v-on:click="modifyBindClass">改变颜色</button>
 			
-			<!-- 学习到指令  To Be Continue -->
+			<h4>动态参数：语法：  指令:[动态参数]=""  注意：动态参数只能是全小写</h4>
+			<input v-on:[dynamicattr]="dynamicMethod"  />
+			<button  @click="modifyToFocs">修改为焦点事件</button>
+			<button  @click="modifyToBlur">修改为失去焦点事件</button>
 		</div>
 	</body>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -40,7 +43,8 @@
 				onceMessage:1,
 				rawHtml:'<span style="color: red">This should be red.</span>',
 				bindClass:'',
-				bindClasses:['red','blue','green']
+				bindClasses:['red','blue','green'],
+				dynamicattr:'click'
 			},
 			methods:{
 				modifyBindClass:function(){
@@ -52,7 +56,17 @@
 				},
 				randomBindClass:function(){
 					return this.bindClasses[Math.round(Math.random()*(this.bindClasses.length-1))];
+				},
+				dynamicMethod:function(e){
+					alert(e+"方法触发");
+				},
+				modifyToFocs:function(){
+					this.dynamicattr="focus"
+				},
+				modifyToBlur:function(){
+					this.dynamicattr="blur"
 				}
+				
 			}
 		})
 	</script>
