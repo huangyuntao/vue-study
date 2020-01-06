@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" lang="zh_CN">
+		<title>计算属性和侦听器</title>
+	</head>
+	<style>
+		
+	</style>
+	<body>
+		<div id='app'>
+			<h3>计算属性  定义在computed: </h3>
+			消息:<input v-model="message" />
+			<br/>
+			<span>反转后的消息：{{reversedMessage}}</span>
+			
+			<h3>计算属性的setter设置</h3>
+			区号：<input v-model="areaCode" />
+			<br>
+			号码：<input v-model="phoneNumber" />
+			<br>
+			电话号：<input v-model="telephoneNumber" />
+			
+			<h3>侦听器 watch</h3>
+			地址：<input v-model="address" />
+			<span v-if="error">{{errorMsg}}</span>
+			<span v-if="!error">经度：{{lng}},维度：{{lat}}</span>
+		</div>
+	</body>
+	
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+
+	<script>
+		var vm=new Vue({
+			el:"#app",
+			data:{
+				message:'妞妞是个傻妞妞',
+				areaCode:'010',
+				phoneNumber:553467,
+				address:'北京',
+				lng:'',
+				lat:'',
+				errorMsg:'',
+				error:null
+			},
+			computed:{
+				//默认是reversedMessage的getter
+				reversedMessage:function(){
+						return this.message.split('').reverse().join('');
+				},
+				telephoneNumber:{
+					get:function(){
+						return this.areaCode + '-' +this.phoneNumber;
+					},
+					set:function(value){
+						var arr=value.split("-");
+						this.areaCode=arr[0];
+						this.phoneNumber=arr[1];
+					}
+				}
+			},
+			watch:{
+				address:function(){
+					this.addrCoord();
+				}
+			},
+			methods:{
+				addrCoord:function(){
+					if(this.address.length>0){
+						var uri="https://jisujwddz.market.alicloudapi.com/geoconvert/addr2coord";
+						var appcode='e011461c6f09430faae3c2c13a9734e0';
+						axios.get(uri,{
+							params:{
+								address:this.address,
+								type:'baidu'
+							},
+							headers: {
+								Authorization:'APPCODE '+appcode
+							}
+						}).then(function(res){
+							var resData=res.data;
+							if(resData.status==0){
+								vm.error=false;
+								vm.lat=resData.result.lat;
+								vm.lng=resData.result.lng;
+							}else{
+								vm.errorMsg=resData.msg;
+							}
+							
+						}).catch(function(err){
+							console.log(err);
+							vm.error=true;
+							vm.errorMsg=err.data.msg;
+						})
+					}
+				}
+			},
+			mounted:function(){
+				this.addrCoord();
+			}
+		})
+		
+	</script>
+</html>
