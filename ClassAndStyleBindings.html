@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Class和Style绑定</title>
+	</head>
+	<style>
+		
+		.border{
+			border: 2px solid #008000;
+		}
+		.red{
+			border-color: red;
+		}
+	</style>
+	<body>
+		<div id="app">
+			<h4>v-bind:class  可以传入字符串，对象，数组。并且可以和原生class属性共存</h4>
+			<button
+			class="border"
+			 @click="changeIsActive"
+			 :class="{red:isRed}">
+			切换class red是否存在</button>
+			
+			<br/>
+			
+			
+		</div>
+	</body>
+	<script src="./vue.js"></script>
+	
+	<script>
+		var vm =new Vue({
+			el:"#app",
+			data:{
+				isRed:false
+			},
+			methods:{
+				changeIsActive:function(){
+					this.isRed=!this.isRed;
+				}
+			}
+			
+			
+		})
+	</script>
+</html>
