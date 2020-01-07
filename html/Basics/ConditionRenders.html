@@ -6,23 +6,29 @@
 	</head>
 	<body>
 	<div id="app">
-			<h4></h4>
-			
+			<h4>v-if 用于条件性的渲染一块内容，这块内容只会在指令的表达式返回truthy值的时候被渲染</h4>
+			<h3>可以与v-else-if,v-else结合使用，如果想切换多个元素可以用<code>&lt;template&gt;</code>包裹 </h3>
+			<button @click="changeShow">切换显示</button>
+			<span v-if="isShow">我出来了！！！！！</span>
+			<span v-else>不让出来！！！</span>
 			<br/>
 			
+			<h4>v-show 根据条件展示元素，与v-if不同的是v-show只是改变元素的display属性。</h4>
+			<h4>如果非常频繁的切换用v-show比较好，很少改变用v-if比较好</h4>
 			
 		</div>
 	</body>
-	<script src="/js/vue.js"></script>
-	
+	<script src="../../js/vue.js"></script>
 	<script>
 		var vm =new Vue({
 			el:"#app",
 			data:{
-				
+				isShow:true
 			},
 			methods:{
-				
+				changeShow:function(){
+					this.isShow=!this.isShow
+				}
 			}
 			
 			
